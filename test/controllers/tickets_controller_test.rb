@@ -5,6 +5,12 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
     @ticket = tickets(:one)
   end
 
+  test "root should be tickets#index" do
+    get root_path
+
+    assert_dom "h1", "Tickets"
+  end
+
   test "should get index" do
     get tickets_url
     assert_response :success
