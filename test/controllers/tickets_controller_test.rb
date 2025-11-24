@@ -39,6 +39,15 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "edit should set turbo-frame[target] appropriately" do
+    # assert_turbo_frame would be nice. See turbo-fails https://github.com/hotwired/turbo-rails/commit/2530f69
+    get edit_ticket_url(@ticket)
+    assert_select %(turbo-frame[id="#{dom_id(@ticket)}"][target="_top"])
+
+    get edit_ticket_url(@ticket), headers: { x_turbo_request_id: "123" }
+    assert_select %(turbo-frame[id="#{dom_id(@ticket)}"][target="_self"])
+  end
+
   test "should update ticket" do
     patch ticket_url(@ticket), params: { ticket: { description: @ticket.description, title: @ticket.title } }
     assert_redirected_to ticket_url(@ticket)
