@@ -2,7 +2,7 @@
 
 <div class="md:w-2/3 w-full">
   <h1 class="font-bold text-4xl">Editing ticket</h1>
-  <%= turbo_frame_tag @ticket, target: turbo_request? ? :_self : :_top do %>
+  <%= turbo_frame_tag @ticket, target: turbo_frame_request? ? "_self" : "_top" do %>
     <%= render "form", ticket: @ticket %>
 
     <%= link_to "Cancel", tickets_path, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>

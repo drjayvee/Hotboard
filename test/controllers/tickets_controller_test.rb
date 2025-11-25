@@ -40,12 +40,21 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "edit should set turbo-frame[target] appropriately" do
-    # assert_turbo_frame would be nice. See turbo-fails https://github.com/hotwired/turbo-rails/commit/2530f69
-    get edit_ticket_url(@ticket)
-    assert_select %(turbo-frame[id="#{dom_id(@ticket)}"][target="_top"])
+    frame_selector = %(turbo-frame[id="#{dom_id(@ticket)}"])
 
+    # assert_turbo_frame would be nice. See turbo-rails https://github.com/hotwired/turbo-rails/commit/2530f69
+
+    # Non-Turbo request
+    get edit_ticket_url(@ticket)
+    assert_equal "_top", css_select(frame_selector).first["target"]
+
+    # Turbo Drive request
     get edit_ticket_url(@ticket), headers: { x_turbo_request_id: "123" }
-    assert_select %(turbo-frame[id="#{dom_id(@ticket)}"][target="_self"])
+    assert_equal "_top", css_select(frame_selector).first["target"]
+
+    # Turbo request from a frame
+    get edit_ticket_url(@ticket), headers: { turbo_frame: "ticket_123" }
+    assert_equal "_self", css_select(frame_selector).first["target"]
   end
 
   test "should update ticket" do
