@@ -20,7 +20,7 @@ class TicketsViewTest < ActionView::TestCase
     # Turbo Drive request
     rendered.clear # because of https://github.com/rails/rails/issues/56235
 
-    @request.headers[:x_turbo_request_id] = "123"
+    request.headers[:x_turbo_request_id] = "123"
     render template: "tickets/edit"
 
     assert_equal "_top", rendered.html.at(frame_selector)["target"]
@@ -28,7 +28,7 @@ class TicketsViewTest < ActionView::TestCase
     # Turbo request from a frame
     rendered.clear
 
-    @request.headers[:turbo_frame] = "ticket_123"
+    request.headers[:turbo_frame] = "ticket_123"
     render template: "tickets/edit"
 
     assert_equal "_self", rendered.html.at(frame_selector)["target"]
