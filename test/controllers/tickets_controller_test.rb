@@ -3,6 +3,7 @@ require "test_helper"
 class TicketsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @ticket = tickets(:one)
+    @ticket_two = tickets(:two)
   end
 
   test "root should be tickets#index" do
@@ -14,6 +15,9 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get tickets_url
     assert_response :success
+
+    assert_match @ticket.title, @response.body
+    assert_match @ticket_two.title, @response.body
   end
 
   test "should get new" do

@@ -1,9 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  description: MyString
+  id: 1
+  title: First task
+  description: Do thing
 
 two:
-  title: MyString
-  description: MyString
+  id: 2
+  title: Second task
+  description: Do another
