@@ -8,29 +8,23 @@ class TicketsViewTest < ActionView::TestCase
     @controller.controller_path = "tickets" # so that view will find partials such as `render "form"`
   end
 
-  test "edit should set turbo-frame[target] appropriately" do
-    # Replace with assert_turbo_frame(target: "_top", rendered...) once available https://github.com/hotwired/turbo-rails/commit/2530f69
-    frame_selector = %(turbo-frame[id="#{dom_id(@ticket)}"])
+  [
+    [ {},                            "_top",  "non-Turbo request" ],
+    [ { x_turbo_request_id: "123" }, "_top",  "Turbo Drive request" ],
+    [ { turbo_frame: "ticket_123" }, "_self", "Turbo request from a frame" ]
+  ].each do |test_case|
+    headers, target, description = test_case
 
-    # Non-Turbo request
-    render template: "tickets/edit"
+    test "edit sets turbo-frame[target] correctly for #{description}" do
+      # Replace with assert_turbo_frame(target: "_top", rendered...) once available https://github.com/hotwired/turbo-rails/commit/2530f69
+      frame_selector = %(turbo-frame[id="#{dom_id(@ticket)}"])
+      request.headers.merge! headers
 
-    assert_equal "_top", rendered.html.at(frame_selector)["target"]
+      render template: "tickets/edit"
 
-    # Turbo Drive request
-    rendered.clear # because of https://github.com/rails/rails/issues/56235
+      assert_equal target, rendered.html.at(frame_selector)["target"]
 
-    request.headers[:x_turbo_request_id] = "123"
-    render template: "tickets/edit"
-
-    assert_equal "_top", rendered.html.at(frame_selector)["target"]
-
-    # Turbo request from a frame
-    rendered.clear
-
-    request.headers[:turbo_frame] = "ticket_123"
-    render template: "tickets/edit"
-
-    assert_equal "_self", rendered.html.at(frame_selector)["target"]
+      rendered.clear # because of https://github.com/rails/rails/issues/56235
+    end
   end
 end
