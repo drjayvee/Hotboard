@@ -8,6 +8,22 @@ class TicketsViewTest < ActionView::TestCase
     @controller.controller_path = "tickets" # so that view will find partials such as `render "form"`
   end
 
+  test "_ticket renders Destroy button" do
+    ticket = tickets(:one)
+
+    render "ticket", ticket: ticket
+    button = rendered.html.at('.//button[text()="Destroy"]')
+
+    refute_nil button
+
+    form = button.ancestors("form").first
+
+    assert_equal ticket_path(ticket), form["action"]
+    assert_equal "delete", form.at("input[name=_method]")["value"]
+
+    assert_equal "_top", button["data-turbo-frame"]
+  end
+
   [
     [ {},                            "_top",  "non-Turbo request" ],
     [ { x_turbo_request_id: "123" }, "_top",  "Turbo Drive request" ],
