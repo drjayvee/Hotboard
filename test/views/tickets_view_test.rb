@@ -21,7 +21,7 @@ class TicketsViewTest < ActionView::TestCase
     assert_equal ticket_path(ticket), form["action"]
     assert_equal "delete", form.at("input[name=_method]")["value"]
 
-    assert_equal "_top", button["data-turbo-frame"]
+    assert_equal "_top", form.at("[data-turbo-frame]")["data-turbo-frame"]
   end
 
   [
