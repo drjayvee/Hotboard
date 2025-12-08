@@ -3,6 +3,7 @@ class TicketsController < ApplicationController
 
   def index
     @tickets = Ticket.all
+    @new_ticket = Ticket.new
   end
 
   def show
@@ -19,7 +20,7 @@ class TicketsController < ApplicationController
     @ticket = Ticket.new(ticket_params)
 
     if @ticket.save
-      redirect_to @ticket, notice: "Ticket was successfully created."
+      redirect_to tickets_path, notice: "Ticket was successfully created."
     else
       render :new, status: :unprocessable_content
     end
@@ -27,7 +28,7 @@ class TicketsController < ApplicationController
 
   def update
     if @ticket.update(ticket_params)
-      redirect_to @ticket, notice: "Ticket was successfully updated.", status: :see_other
+      redirect_to tickets_path, notice: "Ticket was successfully updated.", status: :see_other
     else
       render :edit, status: :unprocessable_content
     end

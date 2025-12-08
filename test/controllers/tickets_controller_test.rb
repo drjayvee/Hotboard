@@ -30,7 +30,7 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
       post tickets_url, params: { ticket: { description: @ticket.description, title: @ticket.title } }
     end
 
-    assert_redirected_to ticket_url(Ticket.last)
+    assert_redirected_to tickets_path
   end
 
   test "should show ticket" do
@@ -45,7 +45,8 @@ class TicketsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update ticket" do
     patch ticket_url(@ticket), params: { ticket: { description: @ticket.description, title: @ticket.title } }
-    assert_redirected_to ticket_url(@ticket)
+
+    assert_redirected_to tickets_path
   end
 
   test "should destroy ticket" do
