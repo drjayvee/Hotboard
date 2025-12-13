@@ -13,7 +13,7 @@
     %>
   </div>
 
-  <%= turbo_frame_tag @new_ticket, target: "_top" %>
+  <%= turbo_frame_tag @new_ticket %>
 
   <div id="tickets" class="min-w-full divide-y divide-gray-200 space-y-5">
     <% if @tickets.any? %>
