@@ -1,1 +1,3 @@
+<%= turbo_stream.log "Ticket ##{@ticket.id} created.", "info" %>
+
 <%= turbo_stream.refresh request_id: nil %>
