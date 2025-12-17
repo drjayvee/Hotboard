@@ -1,0 +1,42 @@
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  margin: 0;
+  opacity: 1;
+  scale: 1;
+
+  transition:
+    opacity 0.2s ease-out,
+    scale 0.2s ease-out,
+    overlay 0.2s ease-out allow-discrete,
+    display 0.2s ease-out allow-discrete;
+
+  @starting-style {
+    opacity: 0;
+    scale: 0.95;
+  }
+}
+
+dialog:not([open]) {
+  opacity: 0;
+  scale: 0.95;
+}
+
+dialog::backdrop {
+  background-color: rgb(0 0 0 / 0.5);
+  transition:
+    background-color 0.2s ease-out,
+    overlay 0.2s ease-out allow-discrete,
+    display 0.2s ease-out allow-discrete;
+
+  @starting-style {
+    background-color: rgb(0 0 0 / 0);
+  }
+}
+
+dialog:not([open])::backdrop {
+  background-color: rgb(0 0 0 / 0);
+}

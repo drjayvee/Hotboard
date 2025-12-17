@@ -10,3 +10,25 @@ Turbo.StreamActions.log = function () {
 
   console[method](this.getAttribute("message"))
 }
+
+// https://boringrails.com/articles/data-turbo-confirm-beautiful-dialog
+Turbo.config.forms.confirm = function (message, element, submitter) {
+  const dialog = document.getElementById('turbo-confirm-dialog')
+
+  if (!dialog) return Promise.resolve(confirm(message))
+
+  const messageElement = document.getElementById('turbo-confirm-message')
+  const confirmButton = dialog.querySelector('button[type="submit"]')
+
+  // configure dialog
+  messageElement.textContent = message
+  confirmButton.textContent = submitter?.dataset.turboConfirmButton || "Confirm"
+
+  dialog.showModal()
+
+  return new Promise((resolve) => {
+    dialog.addEventListener('close', () => {
+      resolve(dialog.returnValue === 'confirm')
+    }, { once: true })
+  })
+}
