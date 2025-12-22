@@ -1,9 +1,9 @@
 module ApplicationHelper
   def turbo_request?
-    request.headers.key? :x_turbo_request_id
+    request.headers.key? "x-turbo-request-id"
   end
 
   def turbo_frame_request?
-    request.headers.key? :turbo_frame
+    request.headers.key? "turbo-frame"
   end
 end

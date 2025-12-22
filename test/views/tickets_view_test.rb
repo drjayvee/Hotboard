@@ -26,8 +26,8 @@ class TicketsViewTest < ActionView::TestCase
 
   [
     [ {},                            "_top",  "non-Turbo request" ],
-    [ { x_turbo_request_id: "123" }, "_top",  "Turbo Drive request" ],
-    [ { turbo_frame: "ticket_123" }, "_self", "Turbo request from a frame" ]
+    [ { "x-turbo-request-id": "123" }, "_top",  "Turbo Drive request" ],
+    [ { "turbo-frame": "ticket_123" }, "_self", "Turbo request from a frame" ]
   ].each do |test_case|
     headers, target, description = test_case
 
