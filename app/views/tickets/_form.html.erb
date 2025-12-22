@@ -1,3 +1,5 @@
+<%# locals: (ticket:) %>
+
 <%= form_with(model: ticket, class: "contents") do |form| %>
   <% if ticket.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
