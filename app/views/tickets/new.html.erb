@@ -3,8 +3,23 @@
 <div class="md:w-2/3 w-full">
   <h1 class="font-bold text-4xl">New ticket</h1>
   <%= turbo_frame_tag @ticket do %>
-    <%= render "form", ticket: @ticket %>
+    <div data-controller="remove-element"> <%# technically not needed if turbo_frame_request? %>
+      <%= render "form", ticket: @ticket %>
 
-    <%= link_to "Back to tickets", tickets_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+      <% if turbo_frame_request? %>
+        <button
+          type="button"
+          class="mt-2 rounded-lg py-3 px-5 bg-gray-100 hover:bg-gray-50 font-medium"
+          data-action="remove-element#remove"
+        >
+          Cancel
+        </button>
+      <% else %>
+        <%= link_to "Back to tickets", tickets_path,
+          class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium",
+          data: { turbo_frame: "_top" }
+        %>
+      <% end %>
+    </div>
   <% end %>
 </div>
